@@ -19,6 +19,7 @@
             v-model="inputText"
         />
         <button @click="changeSentence">Пропустить</button>
+        <p>Таймер: {{ timerSeconds }}</p>
         <hr>
   </div>
 </template>
@@ -36,8 +37,11 @@ export default {
             slicedOriginalText: "",
             fetchedRussianText: "",
             inputText: "",
+            intervalVariable: undefined,
             isTextCorrect: false,
             isTextWrong: false,
+            isTimerStarted: false,
+            timerSeconds: 0,
         }
     },
   mounted() {
@@ -73,10 +77,26 @@ export default {
     methods: {
         changeSentence() {
             console.log("FORCE CHANGE")
+            //Next lines react to this:
+            //this.inputText = ""
+
+            //Remove this variable:
+            this.isTimerStarted = false
+            clearInterval(this.intervalVariable)
+            this.timerSeconds = 0
         },
+        addTimer () {
+            this.timerSeconds++
+        }
     },
     watch: {
         inputText: function(value) {
+            if (this.isTimerStarted == false) {
+                this.isTimerStarted = true
+
+                this.intervalVariable = setInterval(this.addTimer, 1000)
+            }
+
             if ((value == this.fetchedOriginalText.slice(0, value.length)) && (value.length !== 0)) {
                 this.isTextCorrect = true
                 this.isTextWrong = false
@@ -87,9 +107,15 @@ export default {
                 this.isTextCorrect = false
                 this.isTextWrong = false
             }
-            
+
             if (value == this.fetchedOriginalText) {
                 console.log("CHANGE")
+                //Next lines react to this:
+                //this.inputText = ""
+                this.isTimerStarted = false
+                clearInterval(this.intervalVariable)
+                this.timerSeconds = 0
+
             }
         }
     }
