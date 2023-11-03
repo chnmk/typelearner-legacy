@@ -1,3 +1,5 @@
+<!--TODO: Langugage switch; Average speed-->
+
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
@@ -18,8 +20,9 @@
             :placeholder="slicedOriginalText"
             v-model="inputText"
         />
-        <button @click="changeSentence">Пропустить</button>
+        <button @click="changeSentence(isSentenceCorrect == false)">Пропустить</button>
         <p>Таймер: {{ timerSeconds }}</p>
+        <p>Счётчик: {{ countAnswers }}</p>
         <hr>
   </div>
 </template>
@@ -27,71 +30,79 @@
 <script>
 import axios from 'axios'
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  },
-  data() {
-        return {
-            fetchedOriginalText: "",
-            slicedOriginalText: "",
-            fetchedRussianText: "",
-            inputText: "",
-            intervalVariable: undefined,
-            isTextCorrect: false,
-            isTextWrong: false,
-            isTimerStarted: false,
-            timerSeconds: 0,
-        }
+    name: 'HelloWorld',
+    props: {
+        msg: String
     },
-  mounted() {
-      axios
-      //https://api.dev.tatoeba.org/unstable#?route=get-/unstable/sentences
-      //https://api.dev.tatoeba.org/unstable/sentences?lang=jpn&trans=rus
-      //Вообще в идеале надо смотреть сколько страниц перевода вообще есть для данного языка.
-      .get('https://api.dev.tatoeba.org/unstable/sentences?lang=jpn&trans=rus&page=' + String(Math.floor(Math.random() * 101)))
-      .then((response) => {
-          console.log(response.data.data)
-          
-          var rnd_num = Math.floor(Math.random() * 10);
-          this.fetchedOriginalText = response.data.data[rnd_num].text
-          if (response.data.data[rnd_num].text.length > 10) {
-              this.slicedOriginalText = response.data.data[rnd_num].text.slice(0,11) + "・・・"
-          } else {
-              this.slicedOriginalText = response.data.data[rnd_num].text
-          }
-
-          try {
-              try {
-                  this.fetchedRussianText = response.data.data[rnd_num].translations[0][0].text
-                  console.log("OPTION 0")
-              } catch (err) {
-                  this.fetchedRussianText = response.data.data[rnd_num].translations[1][0].text
-                  console.log("OPTION 1")
-              }
-          } catch (err) {
-              this.fetchedRussianText = "***error*** (handle later)"
-          }
-      })
-    },
+    data() {
+            return {
+                fetchedOriginalText: "",
+                slicedOriginalText: "",
+                fetchedRussianText: "",
+                inputText: "",
+                intervalVariable: undefined,
+                isTextCorrect: false,
+                isTextWrong: false,
+                isTimerStarted: false,
+                timerSeconds: 0,
+                countAnswers: 0,
+            }
+        },
+    mounted() {
+        this.getSentence()
+        },
     methods: {
-        changeSentence() {
-            console.log("FORCE CHANGE")
-            //Next lines react to this:
-            //this.inputText = ""
+        getSentence() {
+            axios
+            //https://api.dev.tatoeba.org/unstable#?route=get-/unstable/sentences
+            //https://api.dev.tatoeba.org/unstable/sentences?lang=jpn&trans=rus
 
-            //Remove this variable:
-            this.isTimerStarted = false
+            //Получается количество предложений ограничено 1000. Надо посмотреть позволяет ли api больше взять.
+            //При смене предложений загрузка слишком долго происходит, их бы предзагружать как-то.
+            //***Возможно в api есть какой-нибудь random order? 
+            .get('https://api.dev.tatoeba.org/unstable/sentences?lang=jpn&trans=rus&page=' + String(Math.floor(Math.random() * 101)))
+            .then((response) => {
+                console.log(response.data.data)
+                
+                var rnd_num = Math.floor(Math.random() * 10);
+                this.fetchedOriginalText = response.data.data[rnd_num].text
+                if (response.data.data[rnd_num].text.length > 10) {
+                    this.slicedOriginalText = response.data.data[rnd_num].text.slice(0,11) + "・・・"
+                } else {
+                    this.slicedOriginalText = response.data.data[rnd_num].text
+                }
+
+                try {
+                    try {
+                        this.fetchedRussianText = response.data.data[rnd_num].translations[0][0].text
+                        console.log("API SECTION 0")
+                    } catch (err) {
+                        this.fetchedRussianText = response.data.data[rnd_num].translations[1][0].text
+                        console.log("API SECTION 1")
+                    }
+                } catch (err) {
+                    this.fetchedRussianText = "error (handle later)"
+                }
+            })
+        },
+        changeSentence(isSentenceCorrect) {
+            this.inputText = ""
             clearInterval(this.intervalVariable)
             this.timerSeconds = 0
+            this.isTimerStarted = false
+            this.getSentence()
+            if (isSentenceCorrect == true) {
+                this.countAnswers++
+            }
         },
         addTimer () {
             this.timerSeconds++
         }
+
     },
     watch: {
         inputText: function(value) {
-            if (this.isTimerStarted == false) {
+            if ((this.isTimerStarted == false) && (this.inputText != "")) {
                 this.isTimerStarted = true
 
                 this.intervalVariable = setInterval(this.addTimer, 1000)
@@ -109,13 +120,7 @@ export default {
             }
 
             if (value == this.fetchedOriginalText) {
-                console.log("CHANGE")
-                //Next lines react to this:
-                //this.inputText = ""
-                this.isTimerStarted = false
-                clearInterval(this.intervalVariable)
-                this.timerSeconds = 0
-
+                this.changeSentence(true)
             }
         }
     }
