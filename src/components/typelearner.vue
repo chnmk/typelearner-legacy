@@ -1,12 +1,13 @@
-<!--TODO: Langugage switch; Average speed-->
+<!--TODO: Langugage switch; Average speed; Pre-loading; History; Interface-->
 
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
     <h1>Typing Test VUE + JS</h1>
-        <select>
-            <option value="Japanese">Японский</option>
-            <option value="Hebrew">Иврит</option>
+        <select @change="languageChange($event)">
+            <option value="eng">Английский</option>
+            <option value="jpn">Японский</option>
+            <option value="heb">Иврит</option>
         </select>
         <hr>
         <h1>{{ fetchedRussianText }}</h1>
@@ -20,7 +21,7 @@
             :placeholder="slicedOriginalText"
             v-model="inputText"
         />
-        <button @click="changeSentence(isSentenceCorrect == false)">Пропустить</button>
+        <button @click="changeSentence(isSentenceCorrect)">Пропустить</button>
         <p>Таймер: {{ timerSeconds }}</p>
         <p>Счётчик: {{ countAnswers }}</p>
         <hr>
@@ -40,6 +41,7 @@ export default {
                 slicedOriginalText: "",
                 fetchedRussianText: "",
                 inputText: "",
+                currentLanguage: "eng",
                 intervalVariable: undefined,
                 isTextCorrect: false,
                 isTextWrong: false,
@@ -60,14 +62,15 @@ export default {
             //Получается количество предложений ограничено 1000. Надо посмотреть позволяет ли api больше взять.
             //При смене предложений загрузка слишком долго происходит, их бы предзагружать как-то.
             //***Возможно в api есть какой-нибудь random order? 
-            .get('https://api.dev.tatoeba.org/unstable/sentences?lang=jpn&trans=rus&page=' + String(Math.floor(Math.random() * 101)))
+            .get('https://api.dev.tatoeba.org/unstable/sentences?lang=' + this.currentLanguage + '&trans=rus&page=' + String(Math.floor(Math.random() * 101)))
             .then((response) => {
                 console.log(response.data.data)
                 
                 var rnd_num = Math.floor(Math.random() * 10);
                 this.fetchedOriginalText = response.data.data[rnd_num].text
-                if (response.data.data[rnd_num].text.length > 10) {
-                    this.slicedOriginalText = response.data.data[rnd_num].text.slice(0,11) + "・・・"
+                if (response.data.data[rnd_num].text.length > 24) { // jp = >10
+                    //По-другому обработать другие языки (jp = 0,11)
+                    this.slicedOriginalText = response.data.data[rnd_num].text.slice(0,25) + "..."
                 } else {
                     this.slicedOriginalText = response.data.data[rnd_num].text
                 }
@@ -91,12 +94,16 @@ export default {
             this.timerSeconds = 0
             this.isTimerStarted = false
             this.getSentence()
-            if (isSentenceCorrect == true) {
+            if (isSentenceCorrect) {
                 this.countAnswers++
             }
         },
         addTimer () {
             this.timerSeconds++
+        },
+        languageChange (event) {
+            this.currentLanguage = event.target.value
+            this.changeSentence()
         }
 
     },
