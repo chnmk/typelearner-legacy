@@ -1,9 +1,10 @@
-<!--TODO: Langugage switch; Average speed; Pre-loading; History; Interface-->
+<!--TODO: Interface; Tatoeba reference; Pre-loading; Speed (per character) -->
+<!--TODO*: Click map-->
 
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <h1>Typing Test VUE + JS</h1>
+    <h1>Typing Test VUE</h1>
         <select @change="languageChange($event)">
             <option value="eng">Английский</option>
             <option value="jpn">Японский</option>
@@ -24,6 +25,24 @@
         <button @click="changeSentence(isSentenceCorrect)">Пропустить</button>
         <p>Таймер: {{ timerSeconds }}</p>
         <p>Счётчик: {{ countAnswers }}</p>
+        <p>Среднее время: {{ averageTime }} секунд(ы).</p>
+        <table class="table-center">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Предложение</th>
+                <!--Сделать округляющимся-->
+                <th scope="col">Время</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="value in historyTable" :key="value.id">
+                <td>{{value.id}}</td>
+                <td>{{value.Sentence}}</td>
+                <td>{{value.Time}}</td>
+            </tr>
+            </tbody>
+        </table>
         <hr>
   </div>
 </template>
@@ -48,6 +67,9 @@ export default {
                 isTimerStarted: false,
                 timerSeconds: 0,
                 countAnswers: 0,
+                historyTable: [],
+                historyId: 0,
+                averageTime: 0,
             }
         },
     mounted() {
@@ -64,8 +86,7 @@ export default {
             //***Возможно в api есть какой-нибудь random order? 
             .get('https://api.dev.tatoeba.org/unstable/sentences?lang=' + this.currentLanguage + '&trans=rus&page=' + String(Math.floor(Math.random() * 101)))
             .then((response) => {
-                console.log(response.data.data)
-                
+                //console.log(response.data.data)
                 var rnd_num = Math.floor(Math.random() * 10);
                 this.fetchedOriginalText = response.data.data[rnd_num].text
                 if (response.data.data[rnd_num].text.length > 24) { // jp = >10
@@ -89,14 +110,18 @@ export default {
             })
         },
         changeSentence(isSentenceCorrect) {
+            if (isSentenceCorrect) {
+                this.historyId++
+                this.historyTable.push({id: this.historyId, Sentence: this.fetchedOriginalText, Time: this.timerSeconds})
+                this.averageTime = this.historyTable.map(x => x.Time).reduce((a, b) => a + b, 0) / this.historyTable.map(x => x.Time).length;
+                this.countAnswers++
+            }
             this.inputText = ""
             clearInterval(this.intervalVariable)
             this.timerSeconds = 0
             this.isTimerStarted = false
             this.getSentence()
-            if (isSentenceCorrect) {
-                this.countAnswers++
-            }
+
         },
         addTimer () {
             this.timerSeconds++
@@ -136,4 +161,8 @@ export default {
 </script>
 
 <style>
+.table-center {
+  margin-left: auto;
+  margin-right: auto;
+}
 </style>
