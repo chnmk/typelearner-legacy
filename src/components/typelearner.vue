@@ -1,5 +1,6 @@
 <!--TODO: Interface; Tatoeba reference; Pre-loading; Speed (per character) -->
-<!--TODO*: Click map-->
+<!--TODO*: Click map; Mobile layout-->
+<!--GITHUB TEST-->
 
 <template>
   <div class="hello">
