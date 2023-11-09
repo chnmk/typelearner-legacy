@@ -1,14 +1,13 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="typelearner template"/>
+  <TypeLearner/>
 </template>
 
 <script>
-import HelloWorld from './components/typelearner.vue'
+import TypeLearner from './components/typelearner.vue'
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    TypeLearner
   },
 }
 </script>
@@ -19,24 +18,10 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Noto Sans Hebrew");
 
 * {
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
-
-    margin: 15px;
-    font-family: 
-      "Noto Sans", 
-      "Noto Sans JP", 
-      "Noto Sans Hebrew", 
+  font-family:
+      "Noto Sans",
+      "Noto Sans JP",
+      "Noto Sans Hebrew",
       sans-serif;
-    font-size: 14px;
   }
-
-.correct-text{
-  color: green
-}
-
-.wrong-text{
-  color: red
-}
 </style>
