@@ -1,7 +1,5 @@
-<!--TODO: Interface; Tatoeba reference; Pre-loading; Speed (per character) -->
-<!--TODO*: Click map; Night Theme; Mobile version-->
-
-<!--average time fix; hide table-->
+<!--TODO: Speed (per character)-->
+<!--TODO*: Click map; Mobile version; Improve design; Night Theme; -->
 
 <template>
     <main class="typingmain">
@@ -69,9 +67,9 @@ export default {
     name: 'TypeLearner',
     data() {
             return {
-                fetchedOriginalText: "",
-                slicedOriginalText: "",
-                fetchedRussianText: "",
+                fetchedOriginalText: "Загрузка...",
+                slicedOriginalText: "Загрузка...",
+                fetchedRussianText: "Загрузка...",
                 inputText: "",
                 currentLanguage: "eng",
                 intervalVariable: undefined,
@@ -83,6 +81,10 @@ export default {
                 historyTable: [],
                 historyId: 0,
                 averageTime: 0,
+                isPreloaded: false,
+                fetchedOriginalPreload: "Загрузка...",
+                slicedOriginalTPreload: "Загрузка...",
+                fetchedRussianPreload: "Загрузка...",
             }
         },
     mounted() {
@@ -90,37 +92,70 @@ export default {
         },
     methods: {
         getSentence() {
-            axios
-            //https://api.dev.tatoeba.org/unstable#?route=get-/unstable/sentences
-            //https://api.dev.tatoeba.org/unstable/sentences?lang=jpn&trans=rus
+            if (!this.isPreloaded) {
+                axios
+                //https://api.dev.tatoeba.org/unstable#?route=get-/unstable/sentences
+                //https://api.dev.tatoeba.org/unstable/sentences?lang=jpn&trans=rus
 
-            //Получается количество предложений ограничено 1000. Надо посмотреть позволяет ли api больше взять.
-            //При смене предложений загрузка слишком долго происходит, их бы предзагружать как-то.
-            //***Возможно в api есть какой-нибудь random order?
-            .get('https://api.dev.tatoeba.org/unstable/sentences?lang=' + this.currentLanguage + '&trans=rus&page=' + String(Math.floor(Math.random() * 101)))
-            .then((response) => {
-                //console.log(response.data.data)
-                var rnd_num = Math.floor(Math.random() * 10);
-                this.fetchedOriginalText = response.data.data[rnd_num].text
-                if (response.data.data[rnd_num].text.length > 22) { // jp = >10 (11, там ведь всегда точка...)
-                    //По-другому обработать другие языки (jp = 0,11)
-                    this.slicedOriginalText = response.data.data[rnd_num].text.slice(0,22) + "..."
-                } else {
-                    this.slicedOriginalText = response.data.data[rnd_num].text
-                }
-
-                try {
-                    try {
-                        this.fetchedRussianText = response.data.data[rnd_num].translations[0][0].text
-                        console.log("API SECTION 0")
-                    } catch (err) {
-                        this.fetchedRussianText = response.data.data[rnd_num].translations[1][0].text
-                        console.log("API SECTION 1")
+                //Получается количество предложений ограничено 1000. Надо посмотреть позволяет ли api больше взять.
+                //***Возможно в api есть какой-нибудь random order?
+                .get('https://api.dev.tatoeba.org/unstable/sentences?lang=' + this.currentLanguage + '&trans=rus&page=' + String(Math.floor(Math.random() * 101)))
+                .then((response) => {
+                    var rnd_num = Math.floor(Math.random() * 10);
+                    this.fetchedOriginalText = response.data.data[rnd_num].text
+                    if (response.data.data[rnd_num].text.length > 22) { // jp = >10 (11, там ведь всегда точка...)
+                        //По-другому обработать другие языки (jp = 0,11)
+                        this.slicedOriginalText = response.data.data[rnd_num].text.slice(0,22) + "..."
+                    } else {
+                        this.slicedOriginalText = response.data.data[rnd_num].text
                     }
-                } catch (err) {
-                    this.fetchedRussianText = "error (handle later)"
-                }
-            })
+
+                    try {
+                        try {
+                            this.fetchedRussianText = response.data.data[rnd_num].translations[0][0].text
+                            console.log("API SECTION 0")
+                        } catch (err) {
+                            this.fetchedRussianText = response.data.data[rnd_num].translations[1][0].text
+                            console.log("API SECTION 1")
+                        }
+                    } catch (err) {
+                        this.fetchedRussianText = "error (handle later)"
+                    }
+                })
+                this.preloadSentence()
+            } else {
+                this.fetchedOriginalText = this.fetchedOriginalPreload
+                this.slicedOriginalText = this.slicedOriginalTPreload
+                this.fetchedRussianText = this.fetchedRussianPreload
+                this.isPreloaded = false
+                this.preloadSentence()
+            }
+        },
+        preloadSentence() {
+            axios
+                .get('https://api.dev.tatoeba.org/unstable/sentences?lang=' + this.currentLanguage + '&trans=rus&page=' + String(Math.floor(Math.random() * 101)))
+                .then((response) => {
+                    var rnd_num = Math.floor(Math.random() * 10);
+                    this.fetchedOriginalPreload = response.data.data[rnd_num].text
+                    if (response.data.data[rnd_num].text.length > 22) {
+                        this.slicedOriginalTPreload = response.data.data[rnd_num].text.slice(0,22) + "..."
+                    } else {
+                        this.slicedOriginalTPreload = response.data.data[rnd_num].text
+                    }
+
+                    try {
+                        try {
+                            this.fetchedRussianPreload = response.data.data[rnd_num].translations[0][0].text
+                            console.log("API SECTION 0")
+                        } catch (err) {
+                            this.fetchedRussianPreload = response.data.data[rnd_num].translations[1][0].text
+                            console.log("API SECTION 1")
+                        }
+                    } catch (err) {
+                        this.fetchedRussianPreload = "error (handle later)"
+                    }
+                })
+            this.isPreloaded = true
         },
         changeSentence(isSentenceCorrect) {
             if (isSentenceCorrect) {
@@ -143,7 +178,6 @@ export default {
             this.currentLanguage = event.target.value
             this.changeSentence()
         }
-
     },
     watch: {
         inputText: function(value) {
@@ -169,7 +203,6 @@ export default {
             }
         }
     }
-
 }
 </script>
 
@@ -185,7 +218,6 @@ export default {
     font-size: 14px;
     display: flex;
     flex-direction: row;
-    /*align-items: center;*/
     box-sizing: border-box;
     border: 2px solid purple;
     height: 100%;
