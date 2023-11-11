@@ -184,6 +184,7 @@ export default {
         },
         languageChange (event) {
             this.currentLanguage = event.target.value
+            this.isPreloaded = false
             this.changeSentence()
         }
     },
