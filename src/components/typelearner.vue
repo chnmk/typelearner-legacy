@@ -1,4 +1,4 @@
-<!--TODO: Speed (per character)-->
+<!--TODO: Speed (per character); Decomposition-->
 <!--TODO*: Click map; Mobile version; Improve design; Night Theme; -->
 
 <template>
@@ -53,18 +53,22 @@
                 </tbody>
             </table>
         </div>
-        <div class="metrics">
-            <p>Таймер: {{ timerSeconds }}</p>
-            <p>Счётчик: {{ countAnswers }}</p>
-            <p>Среднее время: {{ averageTime }} секунд(ы).</p>
-        </div>
+        <Metrics
+            :timerSeconds="timerSeconds"
+            :countAnswers="countAnswers"
+            :averageTime="averageTime"
+        />
     </main>
 </template>
 
 <script>
+import Metrics from "./Metrics.vue"
 import axios from 'axios'
 export default {
     name: 'TypeLearner',
+    components: {
+        Metrics
+    },
     data() {
             return {
                 fetchedOriginalText: "Загрузка...",
@@ -249,13 +253,6 @@ export default {
     margin-top: 25px;
     margin-left: auto;
     margin-right: auto;
-    border: 2px solid purple;
-}
-
-.metrics {
-    font-size: 14px;
-    text-align: left;
-    flex: 20%;
     border: 2px solid purple;
 }
 
