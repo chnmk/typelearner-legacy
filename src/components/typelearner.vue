@@ -6,11 +6,11 @@
         <div class="settings">
             <h1 style="font-size:24px; margin-bottom:25px;">typelearner</h1>
             <p>Язык предложений:      
-                <select @change="languageChange($event)">
+                <DefaultSelect @change="languageChange($event)">
                     <option value="eng">Английский</option>
                     <option value="jpn">Японский</option>
                     <option value="heb">Иврит</option>
-                </select>
+                </DefaultSelect>
             </p>
             <hr>
             <div class="info">
@@ -32,7 +32,7 @@
                 :placeholder="slicedOriginalText"
                 v-model="inputText"
             />
-            <button @click="changeSentence(isSentenceCorrect)">Пропустить</button>
+            <DefaultButton @click="changeSentence(isSentenceCorrect)">Пропустить</DefaultButton>
             <hr>
             <p style="margin-top: 25px">История:</p>
             <p v-if="historyTable.length==0" style="color:lightgrey; font-style:italic">Пусто...</p>
@@ -63,11 +63,15 @@
 
 <script>
 import Metrics from "./Metrics.vue"
+import DefaultSelect from "./UI/DefaultSelect.vue"
+import DefaultButton from "./UI/DefaultButton.vue"
 import axios from 'axios'
 export default {
     name: 'TypeLearner',
     components: {
-        Metrics
+        Metrics,
+        DefaultButton,
+        DefaultSelect
     },
     data() {
             return {
