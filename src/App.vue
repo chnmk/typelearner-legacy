@@ -1,6 +1,3 @@
-<!--TODO: Speed (per character); Decomposition-->
-<!--TODO*: Click map; Mobile version; Improve design; Night Theme; -->
-
 <template>
     <main class="typingmain">
         <div class="settings">
