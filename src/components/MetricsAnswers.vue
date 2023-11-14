@@ -1,12 +1,12 @@
 <template>
-    <p>Таймер: {{ timerSeconds }}</p>
+    <p>Счётчик: {{ metricsAnswers }}</p>
 </template>
 
 <script>
 export default {
-    name: "TimerSeconds",
+    name: "MetricsAnswers",
     props: {
-        timerSeconds: {
+        metricsAnswers: {
             type: Number,
             required: true
         }

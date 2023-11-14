@@ -1,12 +1,12 @@
 <template>
-    <p>Счётчик: {{ countAnswers }}</p>
+    <p>Среднее время: {{ metricsSpeed }} секунд(ы).</p>
 </template>
 
 <script>
 export default {
-    name: "CountAnswers",
+    name: "MetricsSpeed",
     props: {
-        countAnswers: {
+        metricsSpeed: {
             type: Number,
             required: true
         }

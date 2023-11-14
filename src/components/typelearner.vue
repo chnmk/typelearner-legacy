@@ -53,23 +53,23 @@
                 </tbody>
             </table>
         </div>
-        <Metrics
-            :timerSeconds="timerSeconds"
-            :countAnswers="countAnswers"
-            :averageTime="averageTime"
+        <MetricsIndex
+            :metricsTime="metricsTime"
+            :metricsAnswers="metricsAnswers"
+            :metricsSpeed="metricsSpeed"
         />
     </main>
 </template>
 
 <script>
-import Metrics from "./Metrics.vue"
+import MetricsIndex from "./MetricsIndex.vue"
 import DefaultSelect from "./UI/DefaultSelect.vue"
 import DefaultButton from "./UI/DefaultButton.vue"
 import axios from 'axios'
 export default {
     name: 'TypeLearner',
     components: {
-        Metrics,
+        MetricsIndex,
         DefaultButton,
         DefaultSelect
     },
@@ -84,11 +84,11 @@ export default {
                 isTextCorrect: false,
                 isTextWrong: false,
                 isTimerStarted: false,
-                timerSeconds: 0,
-                countAnswers: 0,
                 historyTable: [],
                 historyId: 0,
-                averageTime: 0,
+                metricsTime: 0,
+                metricsAnswers: 0,
+                metricsSpeed: 0,
                 isPreloaded: false,
                 fetchedOriginalPreload: "Загрузка...",
                 slicedOriginalTPreload: "Загрузка...",
@@ -168,19 +168,19 @@ export default {
         changeSentence(isSentenceCorrect) {
             if (isSentenceCorrect) {
                 this.historyId++
-                this.historyTable.unshift({id: this.historyId, Sentence: this.fetchedOriginalText, Time: this.timerSeconds})
-                this.averageTime = Math.round(this.historyTable.map(x => x.Time).reduce((a, b) => a + b, 0) / this.historyTable.map(x => x.Time).length);
-                this.countAnswers++
+                this.historyTable.unshift({id: this.historyId, Sentence: this.fetchedOriginalText, Time: this.metricsTime})
+                this.metricsSpeed = Math.round(this.historyTable.map(x => x.Time).reduce((a, b) => a + b, 0) / this.historyTable.map(x => x.Time).length);
+                this.metricsAnswers++
             }
             this.inputText = ""
             clearInterval(this.intervalVariable)
-            this.timerSeconds = 0
+            this.metricsTime = 0
             this.isTimerStarted = false
             this.getSentence()
 
         },
         addTimer () {
-            this.timerSeconds++
+            this.metricsTime++
         },
         languageChange (event) {
             this.currentLanguage = event.target.value

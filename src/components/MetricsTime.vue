@@ -1,12 +1,12 @@
 <template>
-    <p>Среднее время: {{ averageTime }} секунд(ы).</p>
+    <p>Таймер: {{ metricsTime }}</p>
 </template>
 
 <script>
 export default {
-    name: "AverageTime",
+    name: "MetricsTime",
     props: {
-        averageTime: {
+        metricsTime: {
             type: Number,
             required: true
         }
