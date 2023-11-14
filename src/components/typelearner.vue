@@ -16,7 +16,7 @@
             <div class="info">
                 <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum quasi deserunt consequatur fugiat doloremque porro deleniti maxime magnam aperiam. Quo ipsa, possimus cum aliquid adipisci odio repudiandae, vero inventore, soluta molestiae suscipit quaerat ab rerum ex hic voluptatem atque? Expedita amet est facilis laudantium qui iusto harum obcaecati excepturi perferendis!</p>
             </div>
-            <p>Предложения взяты с ресурса <a href="tatoeba.org">tatoeba.org</a></p>
+            <p>Предложения взяты с ресурса <a href="https://tatoeba.org/">tatoeba.org</a></p>
         </div>
         <div class="typingtext">
             <p @click.right.prevent @copy.prevent @paste.prevent style="font-weight: bold;">
