@@ -1,20 +1,8 @@
 <template>
     <main class="typingmain">
-        <div class="settings">
-            <h1 style="font-size:24px; margin-bottom:25px;">typelearner</h1>
-            <p>Язык предложений:      
-                <DefaultSelect @change="languageChange($event)">
-                    <option value="eng">Английский</option>
-                    <option value="jpn">Японский</option>
-                    <option value="heb">Иврит</option>
-                </DefaultSelect>
-            </p>
-            <hr>
-            <div class="info">
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum quasi deserunt consequatur fugiat doloremque porro deleniti maxime magnam aperiam. Quo ipsa, possimus cum aliquid adipisci odio repudiandae, vero inventore, soluta molestiae suscipit quaerat ab rerum ex hic voluptatem atque? Expedita amet est facilis laudantium qui iusto harum obcaecati excepturi perferendis!</p>
-            </div>
-            <p>Предложения взяты с ресурса <a href="https://tatoeba.org/">tatoeba.org</a></p>
-        </div>
+        <SettingsIndex
+            @change="languageChange"
+        />
         <div class="typingtext">
             <p @click.right.prevent @copy.prevent @paste.prevent style="font-weight: bold;">
                 {{ fetchedOriginalText }}
@@ -59,16 +47,17 @@
 </template>
 
 <script>
+import SettingsIndex from "./components/SettingsIndex.vue"
 import MetricsIndex from "./components/MetricsIndex.vue"
-import DefaultSelect from "./components/UI/DefaultSelect.vue"
 import DefaultButton from "./components/UI/DefaultButton.vue"
 import axios from 'axios'
 export default {
     name: 'TypeLearner',
     components: {
+        SettingsIndex,
         MetricsIndex,
         DefaultButton,
-        DefaultSelect
+        
     },
     data() {
             return {
@@ -176,13 +165,17 @@ export default {
             this.getSentence()
 
         },
-        addTimer () {
+        addTimer() {
             this.metricsTime++
         },
-        languageChange (event) {
-            this.currentLanguage = event.target.value
-            this.isPreloaded = false
-            this.changeSentence()
+        languageChange(newLanguage) {
+            //Убрать этот костыль
+            if (typeof(newLanguage) == "string") {
+                console.log("CHANGED LANGUAGE")
+                this.currentLanguage = newLanguage
+                this.isPreloaded = false
+                this.changeSentence()
+            }
         }
     },
     watch: {
