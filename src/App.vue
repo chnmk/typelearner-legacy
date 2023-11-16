@@ -198,8 +198,8 @@ export default {
     flex-direction: row;
     box-sizing: border-box;
     border: 2px solid purple;
-    height: 100%;
-    width: 100%;
+    max-width: 1464px;
+    margin: auto;
 }
 
 </style>
