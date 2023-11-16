@@ -3,41 +3,16 @@
         <SettingsIndex
             @languageChangeEmit="languageChange"
         />
-        <div class="typingtext">
-            <p @click.right.prevent @copy.prevent @paste.prevent style="font-weight: bold;">
-                {{ fetchedOriginalText }}
-            </p>
-            <p>
-                {{ fetchedRussianText }}
-            </p>
-            <input
-                id="userInputText"
-                :class="{ 'correct-text': isTextCorrect, 'wrong-text': isTextWrong }"
-                type="text"
-                :placeholder="slicedOriginalText"
-                v-model="inputText"
-            />
-            <DefaultButton @click="changeSentence(isSentenceCorrect)">Пропустить</DefaultButton>
-            <hr>
-            <p style="margin-top: 25px">История:</p>
-            <p v-if="historyTable.length==0" style="color:lightgrey; font-style:italic">Пусто...</p>
-            <table class="table-center" v-if="historyTable.length>0">
-                <thead>
-                <tr>
-                    <th scope="col">Номер</th>
-                    <th scope="col">Предложение</th>
-                    <th scope="col">Время</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="value in historyTable" :key="value.id">
-                    <td>{{value.id}}</td>
-                    <td>{{value.Sentence}}</td>
-                    <td>{{value.Time}}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+        <TypingIndex
+            :fetchedOriginalText="fetchedOriginalText"
+            :fetchedRussianText="fetchedRussianText"
+            :slicedOriginalText="slicedOriginalText"
+            :isTextCorrect="isTextCorrect"
+            :isTextWrong="isTextWrong"
+            :historyTable="historyTable"
+            v-model:inputTextProp="inputText"
+            @changeSentenceEmit="changeSentence"
+        />
         <MetricsIndex
             :metricsTime="metricsTime"
             :metricsAnswers="metricsAnswers"
@@ -48,6 +23,7 @@
 
 <script>
 import SettingsIndex from "./components/SettingsIndex.vue"
+import TypingIndex from "./components/TypingIndex.vue"
 import MetricsIndex from "./components/MetricsIndex.vue"
 import DefaultButton from "./components/UI/DefaultButton.vue"
 import axios from 'axios'
@@ -55,6 +31,7 @@ export default {
     name: 'TypeLearner',
     components: {
         SettingsIndex,
+        TypingIndex,
         MetricsIndex,
         DefaultButton,
         
@@ -166,10 +143,10 @@ export default {
             this.metricsTime++
         },
         languageChange(newLanguage) {
-                console.log("CHANGED LANGUAGE")
-                this.currentLanguage = newLanguage
-                this.isPreloaded = false
-                this.changeSentence()
+            console.log("CHANGED LANGUAGE")
+            this.currentLanguage = newLanguage
+            this.isPreloaded = false
+            this.changeSentence()
         }
     },
     watch: {
@@ -225,39 +202,4 @@ export default {
     width: 100%;
 }
 
-.settings {
-    font-size: 14px;
-    text-align: center;
-    flex: 20%;
-    border: 2px solid purple;
-}
-
-.info {
-    font-size: 14px;
-    text-align: justify;
-}
-
-.typingtext {
-    font-size: 16px;
-    text-align: center;
-    flex: 60%;
-    border: 2px solid purple;
-    padding: 10px;
-}
-
-.table-center {
-    font-size: 14px;
-    margin-top: 25px;
-    margin-left: auto;
-    margin-right: auto;
-    border: 2px solid purple;
-}
-
-.correct-text{
-    color: green
-}
-
-.wrong-text{
-    color: red
-}
 </style>
