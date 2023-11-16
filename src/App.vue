@@ -1,7 +1,7 @@
 <template>
     <main class="typingmain">
         <SettingsIndex
-            @change="languageChange"
+            @languageChangeEmit="languageChange"
         />
         <div class="typingtext">
             <p @click.right.prevent @copy.prevent @paste.prevent style="font-weight: bold;">
@@ -87,12 +87,9 @@ export default {
     methods: {
         getSentence() {
             if (!this.isPreloaded) {
+                //API: https://api.dev.tatoeba.org/unstable#?route=get-/unstable/sentences
                 axios
-                //https://api.dev.tatoeba.org/unstable#?route=get-/unstable/sentences
-                //https://api.dev.tatoeba.org/unstable/sentences?lang=jpn&trans=rus
-
-                //Получается количество предложений ограничено 1000. Надо посмотреть позволяет ли api больше взять.
-                //***Возможно в api есть какой-нибудь random order?
+                //Получается количество предложений пока ограничено 1000.
                 .get('https://api.dev.tatoeba.org/unstable/sentences?lang=' + this.currentLanguage + '&trans=rus&page=' + String(Math.floor(Math.random() * 101)))
                 .then((response) => {
                     var rnd_num = Math.floor(Math.random() * 10);
@@ -169,13 +166,10 @@ export default {
             this.metricsTime++
         },
         languageChange(newLanguage) {
-            //Убрать этот костыль
-            if (typeof(newLanguage) == "string") {
                 console.log("CHANGED LANGUAGE")
                 this.currentLanguage = newLanguage
                 this.isPreloaded = false
                 this.changeSentence()
-            }
         }
     },
     watch: {

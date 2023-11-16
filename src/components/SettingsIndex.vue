@@ -25,7 +25,7 @@ export default {
     },
     methods: {
         emitLanguageChange(event) {
-            this.$emit('change', event.target.value)
+            this.$emit('languageChangeEmit', event.target.value)
         }
     }
 }
