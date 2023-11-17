@@ -1,4 +1,7 @@
 <template>
+    <!--TODO: 
+        Come up with a fancy UI.
+    -->
     <p>Счётчик: {{ metricsAnswers }}</p>
 </template>
 

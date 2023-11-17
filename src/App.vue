@@ -1,5 +1,6 @@
 <template>
     <main class="typingmain">
+        <!--Using the same name for languageChangeEmit and languageChange triggers languageChange() twice.-->
         <SettingsIndex
             @languageChangeEmit="languageChange"
         />
@@ -25,6 +26,7 @@
 import SettingsIndex from "./components/SettingsIndex.vue"
 import TypingIndex from "./components/TypingIndex.vue"
 import MetricsIndex from "./components/MetricsIndex.vue"
+//TODO: globally register UI components.
 import DefaultButton from "./components/UI/DefaultButton.vue"
 import axios from 'axios'
 export default {
@@ -34,7 +36,6 @@ export default {
         TypingIndex,
         MetricsIndex,
         DefaultButton,
-        
     },
     data() {
             return {
@@ -62,22 +63,29 @@ export default {
         this.getSentence()
         },
     methods: {
+        //API: https://api.dev.tatoeba.org/unstable#?route=get-/unstable/sentences
+        //The number of fetchable sentences for one language is currently limited to 1000.
         getSentence() {
+            //If there is currently no preloaded sentence (e.g. on a language change), 
+            //load a new one directly into fetchedOriginalText variable:
             if (!this.isPreloaded) {
-                //API: https://api.dev.tatoeba.org/unstable#?route=get-/unstable/sentences
+                //TODO: rewrite .get(...) using closure (or at least make it more readable). 
                 axios
-                //Получается количество предложений пока ограничено 1000.
                 .get('https://api.dev.tatoeba.org/unstable/sentences?lang=' + this.currentLanguage + '&trans=rus&page=' + String(Math.floor(Math.random() * 101)))
                 .then((response) => {
-                    var rnd_num = Math.floor(Math.random() * 10);
+                    //Pick a random sentence between #0 and #9 on the random API page fetched earlier in .get(...):
+                    let rnd_num = Math.floor(Math.random() * 10);
                     this.fetchedOriginalText = response.data.data[rnd_num].text
-                    if (response.data.data[rnd_num].text.length > 22) { // jp = >10 (11, там ведь всегда точка...)
-                        //По-другому обработать другие языки (jp = 0,11)
+
+                    //slicedOriginalText variable is used to display "..." at the end of long input placeholders.
+                    //TODO: Manually handle other languages (.slice(0,11) for jp)
+                    if (response.data.data[rnd_num].text.length > 22) { // >10 for jp
                         this.slicedOriginalText = response.data.data[rnd_num].text.slice(0,22) + "..."
                     } else {
                         this.slicedOriginalText = response.data.data[rnd_num].text
                     }
-
+                    
+                    //For some reason, sometimes translation #0 in API is empty. In this case, read trasnaltion #1:
                     try {
                         try {
                             this.fetchedRussianText = response.data.data[rnd_num].translations[0][0].text
@@ -86,11 +94,15 @@ export default {
                             this.fetchedRussianText = response.data.data[rnd_num].translations[1][0].text
                             console.log("API SECTION 1")
                         }
+                    //In case both #0 and #1 translations are empty (it has never happened so far):
                     } catch (err) {
                         this.fetchedRussianText = "error (handle later)"
                     }
                 })
+                //Start preloading the next sentence right away:
                 this.preloadSentence()
+
+            //If there already is a preloaded sentence, write it to fetchedOriginalText and preload another one:
             } else {
                 this.fetchedOriginalText = this.fetchedOriginalPreload
                 this.slicedOriginalText = this.slicedOriginalTPreload
@@ -99,6 +111,7 @@ export default {
                 this.preloadSentence()
             }
         },
+        //TODO: think of a proper way to merge getSentence() and preloadSentence()
         preloadSentence() {
             axios
                 .get('https://api.dev.tatoeba.org/unstable/sentences?lang=' + this.currentLanguage + '&trans=rus&page=' + String(Math.floor(Math.random() * 101)))
@@ -125,6 +138,9 @@ export default {
                 })
             this.isPreloaded = true
         },
+        //isSentenceCorrect == true means the function was called by completing the sentence,
+        //(from  watch: {inputText:...)
+        //rather than by using the "skip" button.
         changeSentence(isSentenceCorrect) {
             if (isSentenceCorrect) {
                 this.historyId++
@@ -151,12 +167,14 @@ export default {
     },
     watch: {
         inputText: function(value) {
+            //Automatically start the timer when writing the first letter:
             if ((this.isTimerStarted == false) && (this.inputText != "")) {
                 this.isTimerStarted = true
 
                 this.intervalVariable = setInterval(this.addTimer, 1000)
             }
 
+            //Make input text green, red or grey depending on whether it's correct:
             if ((value == this.fetchedOriginalText.slice(0, value.length)) && (value.length !== 0)) {
                 this.isTextCorrect = true
                 this.isTextWrong = false
@@ -201,5 +219,4 @@ export default {
     max-width: 1464px;
     margin: auto;
 }
-
 </style>

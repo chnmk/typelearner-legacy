@@ -1,5 +1,9 @@
 <template>
     <div class="typingtext">
+        <!--
+            Prevent copying is especially important for the Japanese language,
+            where copying a kanji is significantly easier than looking it up.
+        -->
         <p @click.right.prevent @copy.prevent @paste.prevent style="font-weight: bold;">
             {{ fetchedOriginalText }}
         </p>
@@ -38,15 +42,17 @@
 </template>
 
 <script>
+//TODO: globally register UI components.
 import DefaultButton from "./UI/DefaultButton.vue"
+//TODO: further decompose this file. 
 export default {
     name: "TypingIndex",
     components: {
         DefaultButton
     },
     props: {
-        //modelValue is a default name for v-model
-        //App.vue: v-model="inputText" instead of v-model:MyNameHere="inputText"
+        //inputTextProp is just a renamed modelValue 
+        //(which is the default name for any v-model value)
         inputTextProp: {
             type: String,
             required: true
@@ -76,6 +82,7 @@ export default {
             required: true
         }
     },
+    //TODO: standardize the way button, input and select emits are handled in the code.
     methods: {
         emitChangeSentence(isSentenceCorrect) {
             this.$emit('changeSentenceEmit', isSentenceCorrect)

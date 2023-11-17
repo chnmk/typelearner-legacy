@@ -1,4 +1,9 @@
 <template>
+    <!--TODO: 
+        Add "...seconds." etc; 
+        Add dynamic "...seconds." variations; 
+        Come up with a fancy UI.
+    -->
     <p>Таймер: {{ metricsTime }}</p>
 </template>
 

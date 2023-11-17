@@ -13,6 +13,7 @@
 </template>
 
 <script>
+// TODO: Add and actual WPM (Word Per Minute) metric.
 import MetricsTime from "./MetricsTime.vue"
 import MetricsAnswers from "./MetricsAnswers.vue"
 import MetricsSpeed from "./MetricsSpeed.vue"
