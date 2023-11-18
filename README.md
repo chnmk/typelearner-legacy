@@ -1,6 +1,10 @@
 # typelearner
 
-A Vue single page application for language learning. Provides an interactive typing practice environment for random sentences fetched from [Tatoeba](https://tatoeba.org/). 
+A Vue single page application for language learning.
+ 
+Provides an interactive typing practice environment for random sentences fetched from [Tatoeba](https://tatoeba.org/). 
+
+![](/src/assets/preview.png?raw="true" "Preview")
 
 Project template generated with Vue CLI 5.0.8.
 
@@ -27,15 +31,9 @@ Project template generated with Vue CLI 5.0.8.
 ## Project setup
 ```
 npm install
-```
 
-### Compiles and hot-reloads for development
-```
 npm run serve
-```
 
-### Compiles and minifies for production
-```
 npm run build
 ```
 
