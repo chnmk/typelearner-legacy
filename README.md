@@ -1,41 +1,46 @@
 # typelearner
 
-A Vue single page application for language learning.
- 
-Provides an interactive typing practice environment for random sentences fetched from [Tatoeba](https://tatoeba.org/). 
+This template should help get you started developing with Vue 3 in Vite.
 
-![](/src/assets/preview.png?raw="true" "Preview")
+## Recommended IDE Setup
 
-Project template generated with Vue CLI 5.0.8.
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
-## TODO
+## Type Support for `.vue` Imports in TS
 
-### Priority level 1
+TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
 
-* Words per minute metric
-* Code refactoring
-* Code comments
+If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
 
-### Priority level 2
+1. Disable the built-in TypeScript Extension
+    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
+    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
+2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
 
-* Keyboard click map
-* Mobile layout
-* Design improvements
-* Night theme
+## Customize configuration
 
-### Priority level 3
+See [Vite Configuration Reference](https://vitejs.dev/config/).
 
-* English interface
-* Saving progress
+## Project Setup
 
-## Project setup
-```
+```sh
 npm install
+```
 
-npm run serve
+### Compile and Hot-Reload for Development
 
+```sh
+npm run dev
+```
+
+### Type-Check, Compile and Minify for Production
+
+```sh
 npm run build
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Lint with [ESLint](https://eslint.org/)
+
+```sh
+npm run lint
+```
