@@ -36,8 +36,8 @@ header {
 	text-align: center;
 }
 
-
-main { /*<RouterView />*/
+@media screen and (min-width: 800px) {
+  main { /*<RouterView />*/
     font-size: 14px;
     display: flex;
     flex-direction: row;
@@ -45,6 +45,19 @@ main { /*<RouterView />*/
     border: 2px solid purple;
     max-width: 1464px;
     margin: auto;
+  }
 }
 
+@media screen and (max-width: 799px) {
+main { /*<RouterView />*/
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  border: 2px solid purple;
+  max-width: 1464px;
+  margin: auto;
+  text-align: center;
+  }
+}
 </style>
