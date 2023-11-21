@@ -7,7 +7,3 @@ import HomePage from '../components/HomePage.vue'
     <HomePage />
   </main>
 </template>
-
-<style>
-
-</style>

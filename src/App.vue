@@ -28,11 +28,11 @@ import MainHeader from './components/MainHeader.vue'
         "Noto Sans Hebrew",
         sans-serif;
     color: #2c3e50;
-    padding: 10px; /*2px*/
+    padding: 2px;
     margin: 10px;
 }
 
-header {
+header { /*<MainHeader />*/
 	text-align: center;
 }
 

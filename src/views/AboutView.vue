@@ -7,7 +7,3 @@ import AboutPage from '../components/AboutPage.vue'
     <AboutPage />
   </main>
 </template>
-
-<style>
-
-</style>

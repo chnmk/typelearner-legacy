@@ -1,29 +1,11 @@
 <template>
-    <div class="settingsPanel">
-        Settings Panel
-    </div>
-    <div class="mainPanel">
-        Main Panel
-    </div>
-    <div class="metricsPanel">
-        Metrics Panel
-    </div>
+    <SettingsIndex />
+    <TypingIndex />
+    <StatisticsIndex /> 
 </template>
 
-<style scoped>
-@media screen and (min-width: 800px) {
-    .settingsPanel {
-    text-align: left;
-    flex: 20%;
-    }
-.mainPanel {
-    text-align: center;
-    flex: 60%;
-    } 
-
-.metricsPanel {
-    text-align: end;
-    flex: 20%;
-    }
-}
-</style>
+<script setup lang="ts">
+    import SettingsIndex from '../components/Settings/SettingsIndex.vue'
+    import TypingIndex from '../components/Typing/TypingIndex.vue'
+    import StatisticsIndex from '../components/Statistics/StatisticsIndex.vue'
+</script>
