@@ -6,6 +6,9 @@
         <MetricsAnswers
             :metricsAnswers="metricsAnswers"
         />
+        <MetricsAverage
+            :metricsAverage="metricsAverage"
+        />
         <MetricsSpeed
             :metricsSpeed="metricsSpeed"
         />
@@ -16,12 +19,14 @@
 // TODO: Add and actual WPM (Word Per Minute) metric.
 import MetricsTime from "./MetricsTime.vue"
 import MetricsAnswers from "./MetricsAnswers.vue"
+import MetricsAverage from "./MetricsAverage.vue"
 import MetricsSpeed from "./MetricsSpeed.vue"
 export default {
     name: "MetricsIndex",
     components: {
         MetricsTime,
         MetricsAnswers,
+        MetricsAverage,
         MetricsSpeed
     },
     props: {
@@ -30,6 +35,10 @@ export default {
             required: true
         },
         metricsAnswers: {
+            type: Number,
+            required: true
+        },
+        metricsAverage: {
             type: Number,
             required: true
         },

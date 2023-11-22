@@ -17,6 +17,7 @@
         <MetricsIndex
             :metricsTime="metricsTime"
             :metricsAnswers="metricsAnswers"
+            :metricsAverage="metricsAverage"
             :metricsSpeed="metricsSpeed"
         />
     </main>
@@ -52,7 +53,9 @@ export default {
                 historyId: 0,
                 metricsTime: 0,
                 metricsAnswers: 0,
+                metricsAverage: 0,
                 metricsSpeed: 0,
+                historySpeed: [],
                 isPreloaded: false,
                 fetchedOriginalPreload: "Загрузка...",
                 slicedOriginalTPreload: "Загрузка...",
@@ -145,7 +148,9 @@ export default {
             if (isSentenceCorrect) {
                 this.historyId++
                 this.historyTable.unshift({id: this.historyId, Sentence: this.fetchedOriginalText, Time: this.metricsTime})
-                this.metricsSpeed = Math.round(this.historyTable.map(x => x.Time).reduce((a, b) => a + b, 0) / this.historyTable.map(x => x.Time).length);
+                this.metricsAverage = Math.round(this.historyTable.map(x => x.Time).reduce((a, b) => a + b, 0) / this.historyTable.map(x => x.Time).length);
+                this.historySpeed.push((this.fetchedOriginalText.length/this.metricsTime)*60)
+                this.metricsSpeed = Math.round(this.historySpeed.reduce((a, b) => a + b, 0) / this.historySpeed.length)
                 this.metricsAnswers++
             }
             this.inputText = ""

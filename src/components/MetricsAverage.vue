@@ -1,16 +1,16 @@
 <template>
     <!--TODO: 
-        Add and actual WPM (Word Per Minute) metric for other languages.
+        Add dynamic "...seconds." variations; 
         Come up with a fancy UI.
     -->
-    <p>Символов в минуту: {{ metricsSpeed }}</p>
+    <p>Среднее время: {{ metricsAverage }} секунд(ы)</p>
 </template>
 
 <script>
 export default {
-    name: "MetricsSpeed",
+    name: "MetricsAverage",
     props: {
-        metricsSpeed: {
+        metricsAverage: {
             type: Number,
             required: true
         }
