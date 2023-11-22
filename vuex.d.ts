@@ -4,3 +4,19 @@ declare module "vuex" {
     export * from "vuex/types/logger.d.ts";
     export * from "vuex/types/vue.d.ts";
   }
+
+
+//Docs: https://vuex.vuejs.org/guide/typescript-support.html
+ /* import { Store } from 'vuex'
+
+declare module '@vue/runtime-core' {
+  // declare your own store states
+  interface State {
+    count: number
+  }
+
+  // provide typings for `this.$store`
+  interface ComponentCustomProperties {
+    $store: Store<State>
+  }
+} */

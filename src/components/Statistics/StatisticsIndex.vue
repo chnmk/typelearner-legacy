@@ -36,7 +36,7 @@ export default {
 
     computed: {
         ...mapGetters({
-            helloWorld: "getMyData"
+            helloWorld: "getHelloWorld"
         })
     }
 }
