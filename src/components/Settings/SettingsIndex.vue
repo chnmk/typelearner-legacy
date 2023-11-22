@@ -6,10 +6,18 @@
     </div>
 </template>
 
-<script setup lang="ts">
-    import SettingsSelect from './SettingsSelect.vue'
-    import SettingsInfo from './SettingsInfo.vue'
-    import SettingsCredits from './SettingsCredits.vue'
+<script lang="ts">
+import SettingsSelect from './SettingsSelect.vue'
+import SettingsInfo from './SettingsInfo.vue'
+import SettingsCredits from './SettingsCredits.vue'
+
+export default {
+    components: {
+        SettingsSelect,
+        SettingsInfo,
+        SettingsCredits
+    }
+}
 </script>
 
 <style scoped>

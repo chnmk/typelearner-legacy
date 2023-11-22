@@ -1,8 +1,6 @@
-import { createStore } from 'vuex'
-// @ts-ignore  
+import { createStore} from 'vuex'
 import myData from "../store/modules/myData"
 
-//https://www.youtube.com/watch?v=O8epzPrsADI
 const store = createStore({
     modules: {
         myData

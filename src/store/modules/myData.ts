@@ -1,8 +1,14 @@
 export default {
 
-    state: () => ({}),
+    state: {
+        helloWorld: "Hello, Vuex!"
+    },
 
-    getters: {},
+    getters: {
+        getMyData(state: any) {
+            return state.helloWorld
+        }
+    },
 
     mutations: {},
 

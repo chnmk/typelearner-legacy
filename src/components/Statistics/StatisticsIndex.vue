@@ -3,13 +3,43 @@
         <StatisticsTime />
         <StatisticsCount />
         <StatisticsSpeed />
+        {{ helloWorld }}
     </div>
 </template>
 
-<script setup lang="ts">
+<!--Components API:-->
+<!-- <script setup lang="ts">
     import StatisticsTime from './StatisticsTime.vue'
     import StatisticsCount from './StatisticsCount.vue'
     import StatisticsSpeed from './StatisticsSpeed.vue'
+
+
+    import { computed } from 'vue'
+    import { useStore } from 'vuex'
+    const store = useStore()
+    const helloWorld = computed(() => {
+        return store.getters.getMyData
+    })
+</script> -->
+
+<script lang="ts">
+import StatisticsTime from './StatisticsTime.vue'
+import StatisticsCount from './StatisticsCount.vue'
+import StatisticsSpeed from './StatisticsSpeed.vue'
+import { mapGetters } from 'vuex'
+export default {
+    components: {
+        StatisticsTime,
+        StatisticsCount,
+        StatisticsSpeed
+    },
+
+    computed: {
+        ...mapGetters({
+            helloWorld: "getMyData"
+        })
+    }
+}
 </script>
 
 <style scoped>

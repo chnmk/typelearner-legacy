@@ -7,11 +7,20 @@
     </div>
 </template>
 
-<script setup lang="ts">
-    import TypingOriginalText from './TypingOriginalText.vue'
-    import TypingTranslatedText from './TypingTranslatedText.vue'
-    import TypingSkipButton from './TypingSkipButton.vue'
-    import TypingHistoryTable from './TypingHistoryTable.vue'
+<script lang="ts">
+import TypingOriginalText from './TypingOriginalText.vue'
+import TypingTranslatedText from './TypingTranslatedText.vue'
+import TypingSkipButton from './TypingSkipButton.vue'
+import TypingHistoryTable from './TypingHistoryTable.vue'
+
+export default {
+    components: {
+        TypingOriginalText,
+        TypingTranslatedText,
+        TypingSkipButton,
+        TypingHistoryTable
+    }
+}
 </script>
 
 <style scoped>
