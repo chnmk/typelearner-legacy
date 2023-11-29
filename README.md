@@ -1,46 +1,27 @@
-# typelearner
+# typelearner-legacy
 
-This template should help get you started developing with Vue 3 in Vite.
+This is the legacy version of typelearner app.
 
-## Recommended IDE Setup
+A Vue 3 single page application for language learning.
+ 
+Provides an interactive typing practice environment for random sentences fetched from [Tatoeba](https://tatoeba.org/). 
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+![](/src/assets/preview.png?raw="true" "Preview")
 
-## Type Support for `.vue` Imports in TS
+Please note that the only purpose of this project is personal webdev practice.
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+Original project template generated with Vue CLI 5.0.8.
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+The experimental-vite branch is a (over-engineered) rewrite of this project using create-vue, vite, vuex, vue-router and typescript. 
 
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
+## Project setup
+```
 npm install
-```
 
-### Compile and Hot-Reload for Development
+npm run serve
 
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
 npm run build
 ```
 
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
