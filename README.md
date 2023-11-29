@@ -1,35 +1,18 @@
-# typelearner
+# typelearner-legacy
 
-A Vue single page application for language learning.
+This is the legacy version of typelearner app.
+
+A Vue 3 single page application for language learning.
  
 Provides an interactive typing practice environment for random sentences fetched from [Tatoeba](https://tatoeba.org/). 
 
 ![](/src/assets/preview.png?raw="true" "Preview")
 
-Please note that the main purpose of this project is webdev practice. I currently have no intent of turning it into a serious language learning tool.
+Please note that the only purpose of this project is personal webdev practice.
 
 Original project template generated with Vue CLI 5.0.8.
 
-The rewrite-vite-vuex-typescript branch is a (over-engineered) rewrite of this project using create-vue, vite, vuex, vue-router and typescript. 
-
-## TODO
-
-### Priority level 1
-
-* Vite implementation
-* Words per minute metric
-
-### Priority level 2
-
-* Keyboard click map
-* Mobile layout
-* Design improvements
-* Night theme
-
-### Priority level 3
-
-* English interface
-* Saving progress
+The experimental-vite branch is a (over-engineered) rewrite of this project using create-vue, vite, vuex, vue-router and typescript. 
 
 ## Project setup
 ```
